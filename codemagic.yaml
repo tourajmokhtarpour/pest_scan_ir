@@ -1,0 +1,32 @@
+workflows:
+  pest-scan-ir-workflow:
+    name: Pest Scan IR
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    
+    environment:
+      vars:
+        APP_ID: com.pestscan.ir
+        PACKAGE_NAME: com.pestscan.ir
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      java: 17
+    
+    scripts:
+      - name: Build Android App Bundle
+        script: |
+          flutter clean
+          flutter pub get
+          flutter build appbundle --release
+    
+    artifacts:
+      - build/app/outputs/bundle/release/*.aab
+    
+    publishing:
+      email:
+        recipients:
+          - touraj.mokhtarpour@example.com
+        notify:
+          success: true
+          failure: true
